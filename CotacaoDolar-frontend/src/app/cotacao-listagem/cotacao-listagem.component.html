@@ -1,0 +1,114 @@
+<div name="parametros">
+    <div name="TipoDeListagem">
+        <label for="TipoDeListagem"> Tipo de listagem: </label>
+        <div>
+            <label for="recente" >
+                <input 
+                    type="radio" [(ngModel)]="parametrosBusca.tipoListagem" 
+                    id="recente" name="tipoListagem" value=1
+                    checked
+                > Recente
+            </label>
+            <label for="periodo">
+                <input 
+                    type="radio" [(ngModel)]="parametrosBusca.tipoListagem" 
+                    id="periodo" name="tipoListagem" value=2
+                > Periodo
+            </label>
+        </div>
+    </div>
+    
+
+    <div name="ExibeCotacaoAtual">
+        <label for="ExibeCotacaoAtual"> Cotação atual: </label>
+        <h1>Dolar-EUA</h1>
+        <div style="border-style: solid;">
+            <label for="campoValor">Valor: </label>
+            <label name="campoValor">5,23</label>
+            <br/>
+            <label>Data: </label>
+            <label>15/07/2021 - 16:26</label>
+
+        </div>
+    </div>
+
+
+    <div name="EscolhePeriodo">
+        <label for="dataInicio">Buscar periodo de: </label>
+        <input 
+            type="date" [(ngModel)]="parametrosBusca.buscaDe"
+            id="dataInicio" name="dataInicioBusca"
+            placeholder="yyyy-MM-dd" min="2021-07-01" max="2021-07-10"
+            [attr.disabled]="parametrosBusca.tipoListagem==1 ? '' : null"
+        />
+
+        <label for="dataFim"> Até: </label>
+        <input 
+            type="date" [(ngModel)]="parametrosBusca.buscaDe"
+            id="dataFim" name="dataFimBusca"
+            placeholder="yyyy-MM-dd" min="2021-07-01" max="2021-07-10"
+            [attr.disabled]="parametrosBusca.tipoListagem==1 ? '' : null"
+        />
+    </div>
+
+
+    <div name="CotacaoPorDia">
+        <label for="listaPorDia" >
+            <input 
+                type="checkbox" [(ngModel)]="parametrosBusca.listarPorDia" 
+                id="listaPorDia" name="CotacaoPorDia" value=true 
+                [attr.disabled]="parametrosBusca.tipoListagem==1 ? '' : null"
+            > Cotação p/ dia?
+        </label>
+    </div>
+</div>
+
+
+<div name="TabelaComCotacoes">
+    <table>
+        <caption>Cotações</caption>
+        <thead>
+            <tr>
+                <th>Data - Hora</th>
+                <th>Valor</th>
+                <th>Diferença</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10/07/2021 - 10:21:10</td>
+                <td>R$ 5,23</td>
+                <td>R$ 2,54</td>
+            </tr>
+            <tr>
+                <td>10/07/2021 - 10:21:10</td>
+                <td>R$ 5,23</td>
+                <td>R$ 2,54</td>
+            </tr>
+            <tr>
+                <td>10/07/2021 - 10:21:10</td>
+                <td>R$ 5,23</td>
+                <td>R$ 2,54</td>
+            </tr>
+            <tr>
+                <td>10/07/2021 - 10:21:10</td>
+                <td>R$ 5,23</td>
+                <td>R$ 2,54</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <div>
+                1, 2, 3, 4, 5, ...10; qtd:100
+                <div>
+                    <label for="itemsPorPagina">Items p/ pagina: </label>
+                    <select id="itemsPorPagina" name="itemPorPagina">
+                        <option value=10>10</option>
+                        <option value=25>25</option>
+                        <option value=40>40</option>
+                    </select>
+                </div>
+            </div>
+        </tfoot>
+    </table>
+</div>
+
