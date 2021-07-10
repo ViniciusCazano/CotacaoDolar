@@ -2,7 +2,6 @@ package com.shx.cotacaoDolar.controller;
 
 import com.shx.cotacaoDolar.model.MoedaCotada;
 import com.shx.cotacaoDolar.service.MoedaCotadaService;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cotacao")

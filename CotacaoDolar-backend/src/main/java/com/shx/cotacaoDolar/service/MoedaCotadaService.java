@@ -3,7 +3,6 @@ package com.shx.cotacaoDolar.service;
 import com.shx.cotacaoDolar.model.MoedaCotada;
 import com.shx.cotacaoDolar.repository.MoedaCotadaRepository;
 import com.shx.util.InformacoesGenericas;
-import com.shx.util.PopulaBaseDados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,7 @@ public class MoedaCotadaService {
     @Autowired
     private MoedaCotadaRepository repository;
 
-    @Autowired
-    private PopulaBaseDados populaBaseDados;
-
     public MoedaCotada cotacaoAtual(){
-        populaBaseDados.salvarDadosBase();
         return repository.getCotacaoAtual();
     }
 
@@ -45,5 +40,4 @@ public class MoedaCotadaService {
 
         return cotacoes;
     }
-
 }

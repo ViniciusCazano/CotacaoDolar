@@ -18,9 +18,6 @@ public class MoedaCotada {
     @Column(name = "DATA_COTACAO", nullable = false)
     private Date dataCotacao;
 
-    @Column(name = "VALOR_COTACAO", nullable = false)
+    @Column(name = "VALOR_COTACAO", nullable = false, columnDefinition = "DECIMAL(4,2)")
     private Double valorCotacao;
-
-    @Column(name = "COMPARACAO_REAL")
-    private Double comparacaoReal;
 }

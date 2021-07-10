@@ -4,8 +4,7 @@ public class MoedaCotadaSqls {
                 //  Exibe a cotacao atual
     public static final String cotacaoAtualSql ="SELECT " +
         "   ctcUSD.DATA_COTACAO, " +
-        "   ctcUSD.VALOR_COTACAO, " +
-        "   ctcUSD.COMPARACAO_REAL " +
+        "   ctcUSD.VALOR_COTACAO " +
         "FROM " +
         "   COTACAO_DOLAR ctcUSD " +
         "ORDER BY " +
