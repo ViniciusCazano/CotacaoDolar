@@ -10,5 +10,4 @@ public class MoedaCotadaSqls {
         "ORDER BY " +
         "   ctcUSD.DATA_COTACAO DESC " +
         "LIMIT 1;";
-
 }

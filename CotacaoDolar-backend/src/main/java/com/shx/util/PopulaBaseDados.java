@@ -25,9 +25,9 @@ public class  PopulaBaseDados {
 
     public void salvarDadosBase() {
         try {
-            MoedaCotada moedaCotada=new MoedaCotada(InformacoesGenericas.formatoData.parse("01/07/2021 08:59"), InformacoesGenericas.valorCotacaoRandom());
+            MoedaCotada moedaCotada=new MoedaCotada(InformacoesGenericas.formatoData.parse("2021-07-01 08:59:00"), InformacoesGenericas.valorCotacaoRandom());
             int count=0;
-            while(moedaCotada.getDataCotacao().getTime() < new Date().getTime()){
+            while(moedaCotada.getDataCotacao().getTime() < new Date().getTime()-InformacoesGenericas.minutoEmMilis){
                 count++;
                 moedaCotada.setDataCotacao( new Date(moedaCotada.getDataCotacao().getTime() + (InformacoesGenericas.minutoEmMilis)) );
                 moedaCotada.setValorCotacao(InformacoesGenericas.valorCotacaoRandom());
@@ -39,7 +39,7 @@ public class  PopulaBaseDados {
                 }
             }
         }catch (Exception ex){
-            System.out.println("Erro ao popular base de dados: "+ex);
+            System.out.println("Falha ao popular base de dados: "+ex);
         }
     }
 
@@ -48,7 +48,7 @@ public class  PopulaBaseDados {
             MoedaCotada moedaCotada=new MoedaCotada(new Date(), InformacoesGenericas.valorCotacaoRandom());
             repository.save(moedaCotada);
         }catch (Exception ex){
-            System.out.println("Erro ao incluir atualização a base de dados: "+ex);
+            System.out.println("Falha ao incluir atualização a base de dados: "+ex);
         }
     }
 

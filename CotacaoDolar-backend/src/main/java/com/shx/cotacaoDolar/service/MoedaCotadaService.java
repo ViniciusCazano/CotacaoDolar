@@ -8,9 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -22,22 +26,38 @@ public class MoedaCotadaService {
         return repository.getCotacaoAtual();
     }
 
-    public List<MoedaCotada> listagemCotacao(Map<String, String> requestParams) {
-        List<MoedaCotada> cotacoes = null;
 
-        if(requestParams.get("dataCotacaoDe")!=null && requestParams.get("dataCotacaoAte")!=null){
-            try {
-                Date dataDe= InformacoesGenericas.formatoData.parse(requestParams.get("dataCotacaoDe"));
-                Date dataAte=InformacoesGenericas.formatoData.parse(requestParams.get("dataCotacaoAte"));
+    public Map<String, Object> listagemCotacao(
+        Map<String, String> requestParams,
+        int paginaAtual, int itemPorPagina
+    ){
+        Page<MoedaCotada> listaCotacao = null;
+        Pageable paginacao = PageRequest.of(paginaAtual, itemPorPagina);
 
-                cotacoes=repository.findByDataCotacaoBetween(dataDe, dataAte);
-            }catch(ParseException e){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha no processamento da data do periodo");
+        Date dataDe;
+        Date dataAte;
+        try {
+            if(requestParams.get("dataCotacaoDe")!=null && requestParams.get("dataCotacaoAte")!=null){
+                    dataDe= InformacoesGenericas.formatoData.parse(requestParams.get("dataCotacaoDe")+" 00:00:00");
+                    dataAte= InformacoesGenericas.formatoData.parse(requestParams.get("dataCotacaoAte")+" 23:59:59");
             }
-        }else {
-            cotacoes=repository.findAll();
+            else{
+                String dataAtual=InformacoesGenericas.formatoData.format(new Date()).split(" ")[0];
+
+                dataDe = InformacoesGenericas.formatoData.parse( dataAtual+" 00:00:00" );
+                dataAte = InformacoesGenericas.formatoData.parse( InformacoesGenericas.formatoData.format(new Date().getTime()-InformacoesGenericas.minutoEmMilis) );
+            }
+        }catch(ParseException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha no processamento da data do periodo");
         }
 
-        return cotacoes;
+        listaCotacao=repository.findByDataCotacaoBetweenOrderByDataCotacaoDesc(dataDe, dataAte, paginacao);
+        Map<String, Object> response = new HashMap<>();
+        response.put("dados", listaCotacao.getContent());
+        response.put("paginaAtual", listaCotacao.getNumber());
+        response.put("totalItems", listaCotacao.getTotalElements());
+        response.put("totalPaginas", listaCotacao.getTotalPages());
+
+        return response;
     }
 }

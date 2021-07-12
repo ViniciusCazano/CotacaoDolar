@@ -4,17 +4,14 @@ import com.shx.cotacaoDolar.model.MoedaCotada;
 import com.shx.cotacaoDolar.service.MoedaCotadaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/cotacao")
+@CrossOrigin
 public class MoedaCotadaController {
     @Autowired
     private MoedaCotadaService service;
@@ -27,8 +24,12 @@ public class MoedaCotadaController {
     }
 
     @GetMapping("/listagem")
-    public List<MoedaCotada> listarCotacoes(@RequestParam Map<String, String> requestParams) {
-        List<MoedaCotada> cotacoes = service.listagemCotacao(requestParams);
+    public Map<String, Object> listarCotacoes(
+        @RequestParam Map<String, String> requestParams,
+        @RequestParam(defaultValue = "0") int paginaAtual,
+        @RequestParam(defaultValue = "10") int itemsPorPagina
+    ) {
+        Map<String, Object> cotacoes = service.listagemCotacao(requestParams, paginaAtual, itemsPorPagina);
         if (cotacoes == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sem dados cadastrados na base");
         return cotacoes;
     }
