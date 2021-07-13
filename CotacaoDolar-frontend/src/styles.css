@@ -1,5 +1,7 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 *{
-    font-family: century Schoolbook;
+    font-family: courier,arial,helvetica;
     font-size: large;
     font-weight: bold;
 }

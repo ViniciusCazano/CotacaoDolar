@@ -1,0 +1,113 @@
+<div class="container">
+    
+    <div name="Parametros" >
+        <div name="TipoDeListagem" class="row">
+            <div class="col-md-auto align-self-center">
+                <label for="TipoDeListagem"> Tipo de listagem: </label>
+            </div>
+            <div class="col align-self-center">
+                <div class="row">
+                    <div class="col">
+                    <label for="recente">
+                        <input type="radio" [(ngModel)]="tipoListagem" id="recente" name="tipoListagem"
+                            value=1 (click)="this.zerarParametros()"> Recente
+                    </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                    <label for="periodo">
+                        <input type="radio" [(ngModel)]="tipoListagem" id="periodo" name="tipoListagem"
+                            value=2> Periodo
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+            <div name="ExibeCotacaoAtual" class="col-md-auto" style="margin: 10px;" >
+                <label>Cotação: </label><br>
+                <div  id="paramsBotao">
+                    <label> Dolar(EUA) - Real(BRL)</label>
+                </div>
+                <div style="border-style: solid;">
+                    <label name="campoValor" class="cotacaoAtual">VALOR: </label>
+                    <label>{{cotacaoAtual.valorCotacao | currency: 'BRL'}}</label>
+                    <br />
+                    <label  name="campoData" class="cotacaoAtual">DATA: </label>
+                    <label>{{cotacaoAtual.dataCotacao | date: 'dd/MM/yyyy - HH:mm:ss'}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div name="EscolhePeriodo">
+            <label for="dataInicio">Buscar periodo de:</label>
+            <input type="date" [(ngModel)]="parametrosApi.dataCotacaoDe" id="dataInicio" name="dataInicioBusca"
+                placeholder="yyyy-MM-dd" min="{{dataMinBusca}}" max="{{parametrosApi.dataCotacaoAte==''? dataMaxBusca :parametrosApi.dataCotacaoAte}}"
+                [attr.disabled]="tipoListagem=='1' ? '' : null" />
+
+            <label for="dataFim">Até: </label>
+            <input type="date" [(ngModel)]="parametrosApi.dataCotacaoAte" id="dataFim" name="dataFimBusca"
+                placeholder="yyyy-MM-dd" min="{{parametrosApi.dataCotacaoDe==''? dataMinBusca :parametrosApi.dataCotacaoDe }}" max="{{dataMaxBusca}}"
+                [attr.disabled]="(tipoListagem=='1' || parametrosApi.dataCotacaoDe=='') ?'' :null" />
+        </div>
+
+        <div name="Botoes" id="paramsBotao">
+            <button type="button" class="btn btn-primary" (click)="this.zerarParametros()"> Limpar </button>
+            <button type="button" class="btn btn-primary" (click)="this.buscaCotacoes()"> Buscar </button>
+        </div>
+    </div>
+
+
+    <div name="TabelaComCotacoes">
+        <table class="table caption-top" id="tabelaListagem">
+            <caption>Histórico de Cotações</caption>
+            <thead>
+                <tr>
+                    <th *ngFor="let itemDaLista of cabecalhoTabela">
+                        {{ itemDaLista }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let itemDaLista of dadosTabela">
+                    <td>{{itemDaLista.dataCotacao | date: 'dd/MM/yyyy - HH:mm:ss'}}</td>
+                    <td>{{itemDaLista.valorCotacao | currency: 'BRL'}}</td>
+                    <td>{{(itemDaLista.valorCotacao-cotacaoAtual.valorCotacao) | currency: 'BRL'}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="3">
+                    <div>
+                        <nav aria-label="...">
+                            <ul class="pagination pagination-sm justify-content-end">
+                                <li [ngClass]="(0==parametrosApi.paginaAtual)?'page-item active' :'page-item'">
+                                    <button class="page-link" (click)="this.mudarPaginaAtual(0)">Primeira</button>
+                                </li>
+                                
+                                <li *ngFor="let paginaNum of paginacaoPosicoes;"
+                                    [ngClass]="(paginaNum==parametrosApi.paginaAtual)?'page-item active' :'page-item'"
+                                >
+                                    <button class="page-link" (click)="this.mudarPaginaAtual(paginaNum)">{{paginaNum}}</button>
+                                </li>
+
+                                <li [ngClass]="(totalPaginas==parametrosApi.paginaAtual)?'page-item active' :'page-item'">
+                                    <button class="page-link" (click)="this.mudarPaginaAtual(totalPaginas)">Ultima</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div>
+                        <label for="itemsPorPagina">Items p/ pagina: </label>
+                        <select id="itemsPorPagina" name="itemsPorPagina" [(ngModel)]="parametrosApi.itemsPorPagina" (ngModelChange)="buscaCotacoes()" >
+                            <option value={{10}} >10</option>
+                            <option value={{25}} >25</option>
+                            <option value={{40}} >40</option>
+                        </select>
+                    </div>
+                </td>
+            </tfoot>
+        </table>
+    </div>
+    
+</div>

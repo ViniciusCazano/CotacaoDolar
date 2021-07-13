@@ -1,0 +1,35 @@
+.exibeCotacoes{
+    text-align: center;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+.cotacaoAtual{
+    font-size: 25px;
+    margin: 10px;
+}
+#tabelaListagem{
+    text-align: center;
+}
+#paramsBotao{
+    text-align: center;
+}
+
+caption{
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: black;
+    
+}
+tbody{
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+tfoot{
+    text-align: right;
+}
+button{
+    margin: 10px;
+    font-weight: bold;
+}
