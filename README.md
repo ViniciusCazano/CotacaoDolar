@@ -6,24 +6,23 @@ Permitindo visualizar um historico de cotações e a cotação atual.
 Para validar o projeto, ao iniciar o SpringBoot o mesmo ira gerar dados aleatorios e ficar inserindo registro a cada minuto.
 
 
-# Tecnologia utilizada: <br/>
-------> Backend: SpringBoot <br/>
-------> FrontEnd: Angular <br/>
-------> Banco de dados: PostgreSQL <br/>
-
 # EXECUTAR APLICAÇÃO
 1º)Verificar dados de configuração do banco de dados: <br/>
 * DataBase: postgres <br/>
 * Usuario: postgres <br/>
 * Senha: postgres <br/>
 
-
 2º)Executar o SpringBoot: <br/>
 * cd ./CotacaoDolar-backend <br/>
 * mvnw spring-boot:run <br/>
 OBS: Aguardar até exibir a mensagem "BASE DE DADOS CARREGADA COM SUCESSO" <br/>
 
-
 3º)Executar Angular: <br/>
 * cd ./CotacaoDolar-frontend <br/>
 * ng serve <br/>
+
+
+# Tecnologia utilizada: <br/>
+------> Backend: SpringBoot <br/>
+------> FrontEnd: Angular <br/>
+------> Banco de dados: PostgreSQL <br/>
