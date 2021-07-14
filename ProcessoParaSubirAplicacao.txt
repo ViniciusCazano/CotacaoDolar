@@ -8,6 +8,7 @@
 2º)Executar o SpringBoot:
 	cd ./CotacaoDolar-backend
 	mvnw spring-boot:run
+	   OBS: Aguardar até exibir a mensagem "BASE DE DADOS CARREGADA COM SUCESSO"
 
 
 3º)Executar Angular:
