@@ -1,7 +1,4 @@
-# CotacaoDolar
-Aplicativo para exibir a cotação do dolar, Angular e SpringBoot
-
-# EXECUTAR APLICAÇÃO
+	####################### EXECUTAR PROCESSOS NA ORDEM ABAIXO #######################
 1º)Verificar dados de configuração do banco de dados:
 	DataBase: postgres
 	Usuario: postgres
@@ -16,3 +13,6 @@ Aplicativo para exibir a cotação do dolar, Angular e SpringBoot
 3º)Executar Angular:
 	cd ./CotacaoDolar-frontend
 	ng serve
+
+
+

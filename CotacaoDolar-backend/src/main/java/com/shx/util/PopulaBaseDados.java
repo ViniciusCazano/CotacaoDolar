@@ -38,6 +38,7 @@ public class  PopulaBaseDados {
                     count=0;
                 }
             }
+            System.out.println("########################## BASE DE DADOS CARREGADA COM SUCESSO ##########################");
         }catch (Exception ex){
             System.out.println("Falha ao popular base de dados: "+ex);
         }

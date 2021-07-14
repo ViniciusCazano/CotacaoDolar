@@ -16,8 +16,8 @@ public class CotacaoDolarBackendApplication {
 			populaBaseDados.salvarDadosBase(); //Adiciona dados do dia 01/07 até data atual
 
 			while(true){ //Adiciona por minuto
-				populaBaseDados.adicionaPorMinuto();
 				Thread.sleep(InformacoesGenericas.minutoEmMilis);
+				populaBaseDados.adicionaPorMinuto();
 			}
 		}
 	};
