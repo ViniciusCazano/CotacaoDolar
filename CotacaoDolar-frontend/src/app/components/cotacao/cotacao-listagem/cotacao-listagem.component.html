@@ -79,7 +79,7 @@
             </tbody>
 
             <tfoot>
-                <td colspan="3">
+                <td colspan="4">
                     <div>
                         <nav aria-label="...">
                             <ul class="pagination pagination-sm justify-content-end">
@@ -90,7 +90,12 @@
                                 <li *ngFor="let paginaNum of paginacaoPosicoes;"
                                     [ngClass]="(paginaNum==parametrosApi.paginaAtual)?'page-item active' :'page-item'"
                                 >
-                                    <button class="page-link" (click)="this.mudarPaginaAtual(paginaNum)">{{paginaNum}}</button>
+                                    <button 
+                                        class="page-link" 
+                                        (click)="this.mudarPaginaAtual(paginaNum)"
+                                        [attr.disabled]="paginaNum>totalPaginas ? '' : null"
+                                        >{{paginaNum}}
+                                    </button>
                                 </li>
 
                                 <li [ngClass]="(totalPaginas==parametrosApi.paginaAtual)?'page-item active' :'page-item'">

@@ -1,11 +1,17 @@
 package com.shx.util;
 
 import com.shx.cotacaoDolar.model.MoedaCotada;
+import com.shx.util.model.CotacaoApiExterna;
+import com.shx.util.model.ResponseApiExterna;
 import com.shx.cotacaoDolar.repository.MoedaCotadaRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,22 +27,22 @@ public class  PopulaBaseDados {
 
     private static MoedaCotadaRepository repository;
     private List<MoedaCotada> listaCotacaoSalvar = new ArrayList<MoedaCotada>();
-
+    private RestTemplate restTemplate = new RestTemplate();
 
     public void salvarDadosBase() {
+        SimpleDateFormat formatoDataParametrosApi = new SimpleDateFormat("MM-dd-yyyy");
         try {
-            MoedaCotada moedaCotada=new MoedaCotada(InformacoesGenericas.formatoData.parse("2021-07-01 08:59:00"), InformacoesGenericas.valorCotacaoRandom());
-            int count=0;
-            while(moedaCotada.getDataCotacao().getTime() < new Date().getTime()-InformacoesGenericas.minutoEmMilis){
-                count++;
-                moedaCotada.setDataCotacao( new Date(moedaCotada.getDataCotacao().getTime() + (InformacoesGenericas.minutoEmMilis)) );
-                moedaCotada.setValorCotacao(InformacoesGenericas.valorCotacaoRandom());
-                repository.save(moedaCotada);
+            Date dataBusca=InformacoesGenericas.formatoData.parse("2021-06-01 00:00:00");
 
-                if(count==(9*60)) { //Avança a data para o proximo dia. A cada 9hrs de trabalho
-                    moedaCotada.setDataCotacao( new Date(moedaCotada.getDataCotacao().getTime()+15*InformacoesGenericas.horaEmMilis) );//Adiciona 15hrs
-                    count=0;
+            while(dataBusca.getTime() <= new Date().getTime() ){
+                ResponseApiExterna response = restTemplate.getForObject(
+                        InformacoesGenericas.geraUrlBuscaApi( formatoDataParametrosApi.format(dataBusca) ), ResponseApiExterna.class
+                );
+
+                for(CotacaoApiExterna responseApi : response.getValue()){
+                    repository.save(responseApi.transformaEmMoedaCotacao());
                 }
+                dataBusca=new Date( dataBusca.getTime()+(InformacoesGenericas.horaEmMilis*24) );
             }
             System.out.println("########################## BASE DE DADOS CARREGADA COM SUCESSO ##########################");
         }catch (Exception ex){
@@ -45,8 +51,15 @@ public class  PopulaBaseDados {
     }
 
     public void adicionaPorMinuto(){
+        MoedaCotada moedaCotada = new MoedaCotada();
+        String urlApi="https://economia.awesomeapi.com.br/last/USD-BRL";
+
         try{
-            MoedaCotada moedaCotada=new MoedaCotada(new Date(), InformacoesGenericas.valorCotacaoRandom());
+            ResponseEntity<String> response = restTemplate.getForEntity(urlApi, String.class);
+            JSONObject jsonObject = new JSONObject( response.getBody() );
+
+            moedaCotada.setValorCotacao( jsonObject.getJSONObject("USDBRL").getDouble("bid") );
+            moedaCotada.setDataCotacao( InformacoesGenericas.formatoData.parse(jsonObject.getJSONObject("USDBRL").getString("create_date")) );
             repository.save(moedaCotada);
         }catch (Exception ex){
             System.out.println("Falha ao incluir atualização a base de dados: "+ex);
