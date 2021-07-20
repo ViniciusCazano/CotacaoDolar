@@ -1,0 +1,6 @@
+1º Fazer uma coluna que compara com a primeira cotação do dia
+
+
+2º Usar uma API publica para popular os dados na base de dados
+
+
