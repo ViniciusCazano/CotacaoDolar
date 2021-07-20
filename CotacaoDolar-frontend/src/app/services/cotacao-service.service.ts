@@ -22,6 +22,7 @@ export class CotacaoServiceService {
     return this.httpClient.get<CotacaoObj>(this.urlBackend+"/instante")
       .pipe( retry(1) )
   }
+
   getBuscaCotacoes(parametrosBusca:ParametrosBuscaCotacao ): Observable<RetornoBuscaCotacao>{
     let parametros = new HttpParams();
     for (var [chave, valor] of Object.entries(parametrosBusca)) {
@@ -31,8 +32,9 @@ export class CotacaoServiceService {
     return this.httpClient.get<RetornoBuscaCotacao>(this.urlBackend+"/listagem", {params: parametros})
       .pipe( retry(1) )
   }
-  getDataCotacaoMin(): Observable<CotacaoObj>{
-    return this.httpClient.get<CotacaoObj>(this.urlBackend+"/primeiraCotacao")
+
+  getPrimeiraCotacaoDia(): Observable<CotacaoObj>{
+    return this.httpClient.get<CotacaoObj>(this.urlBackend+"/primeiraCotacaoDia")
       .pipe( retry(1) )
   }
 }

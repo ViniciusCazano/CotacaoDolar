@@ -13,6 +13,7 @@ import { CotacaoServiceService } from 'src/app/services/cotacao-service.service'
   styleUrls: ['./cotacao-listagem.component.css']
 })
 export class CotacaoListagemComponent implements OnInit {
+  primeiraCotacaoDia={} as CotacaoObj;
   cotacaoAtual={} as CotacaoObj;
   dadosTabela=[] as CotacaoObj[];
   parametrosApi={} as ParametrosBuscaCotacao;
@@ -22,7 +23,7 @@ export class CotacaoListagemComponent implements OnInit {
   dataMaxBusca= new Date().toISOString().split("T")[0];
   totalPaginas= 1;
 
-  cabecalhoTabela=["Data-Hora", "Preço(R$)", "Diferença c/ atual(R$)"];
+  cabecalhoTabela=["Data-Hora", "Preço(R$)", "Diferença c/ atual(R$)", "Diferença c/ 1ªCotação"];
   paginacaoPosicoes= [1, 2, 3, 4, 5, 6];
   
   constructor(
@@ -30,11 +31,18 @@ export class CotacaoListagemComponent implements OnInit {
   ){}
   ngOnInit(): void {
     this.zerarParametros();
+    this.atualizaPrimeiraCotacaoDia();
     timer(0, 1000*60).subscribe(() => {
       this.buscaCotacoes();
     });
   }
 
+  atualizaPrimeiraCotacaoDia(){
+    this.cotacaoService.getPrimeiraCotacaoDia()
+      .subscribe((cotacaoObj: CotacaoObj)=>{
+        this.primeiraCotacaoDia=cotacaoObj;
+      });
+  }
   atualizaCotacaoAtual(){
       this.cotacaoService.getCotacaoAtual()
         .subscribe((cotacaoObj: CotacaoObj)=>{

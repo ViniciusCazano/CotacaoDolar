@@ -23,6 +23,13 @@ public class MoedaCotadaController {
         return moedaCotada;
     }
 
+    @GetMapping("/primeiraCotacaoDia")
+    public MoedaCotada primeiraCotacaoDia() throws Exception {
+        MoedaCotada moedaCotada = service.primeiraCotacaoDia();
+        if (moedaCotada == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sem dados cadastrados na base");
+        return moedaCotada;
+    }
+
     @GetMapping("/listagem")
     public Map<String, Object> listarCotacoes(
         @RequestParam Map<String, String> requestParams,

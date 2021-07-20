@@ -26,6 +26,19 @@ public class MoedaCotadaService {
         return repository.getCotacaoAtual();
     }
 
+    public MoedaCotada primeiraCotacaoDia(){
+        Date dataAtual=null;
+        try{
+            dataAtual=InformacoesGenericas.formatoData.parse(
+                    InformacoesGenericas.formatoData.format(new Date()).split(" ")[0] + " 00:00:00"
+            );
+        }catch (ParseException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Falha no processamento da data atual");
+        }
+
+        return repository.getPrimeiraCotacaoDia(dataAtual);
+    }
+
 
     public Map<String, Object> listagemCotacao(
         Map<String, String> requestParams,

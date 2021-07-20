@@ -16,5 +16,8 @@ public interface MoedaCotadaRepository  extends JpaRepository<MoedaCotada, Date>
     @Query( value=MoedaCotadaSqls.cotacaoAtualSql, nativeQuery = true )
     MoedaCotada getCotacaoAtual();
 
+    @Query( value=MoedaCotadaSqls.primeiraCotacaoDiaSql, nativeQuery = true )
+    MoedaCotada getPrimeiraCotacaoDia(Date dataCotacao);
+
     Page<MoedaCotada> findByDataCotacaoBetweenOrderByDataCotacaoDesc(Date de, Date ate, Pageable pageable);
 }
